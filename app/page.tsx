@@ -1,6 +1,36 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import CosmicBackground from "./components/CosmicBackground";
 
 export default function Home() {
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const aud = new Audio("/assets/BGM.mp3");
+    aud.loop = true;
+    aud.volume = 0.35;
+    setTimeout(() => {
+      setAudio(aud);
+    }, 0);
+
+    return () => {
+      aud.pause();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!audio) return;
+    if (audioPlaying) {
+      audio.play().catch((err) => {
+        console.warn("Audio playback blocked:", err);
+        setAudioPlaying(false);
+      });
+    } else {
+      audio.pause();
+    }
+  }, [audioPlaying, audio]);
   return (
     <div className="relative min-h-screen text-[#eef1ff] overflow-x-hidden font-sans">
       {/* Cosmic background animation */}
@@ -69,6 +99,23 @@ export default function Home() {
           >
             Tech
           </a>
+          <button
+            onClick={() => setAudioPlaying(!audioPlaying)}
+            style={{
+              color: "#b9c4ec",
+              fontWeight: 500,
+              fontSize: "14.5px",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+            className="hover:text-[var(--cyan)] transition-colors"
+          >
+            {audioPlaying ? "🔊 BGM On" : "🔇 BGM Off"}
+          </button>
           <a
             href="/Melodash.zip"
             download
