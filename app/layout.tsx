@@ -8,8 +8,22 @@ export const metadata: Metadata = {
   authors: [{ name: "LumbazzZ Team" }],
   openGraph: {
     title: "Melodash — Forget online duets. Clash face-to-face.",
-    description: "One room. One mic. 2–5 friends taking turns while Melodash scores your pitch, your words, and your face in real time.",
+    description: "The local multiplayer party game where 2–5 friends clash face-to-face. One room. One mic. Endless chaotic fun.",
     type: "website",
+    images: [
+      {
+        url: "/assets/hero-shot.webp",
+        width: 1200,
+        height: 750,
+        alt: "Melodash Gameplay Mockup",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Melodash — Forget online duets. Clash face-to-face.",
+    description: "The local multiplayer party game where 2–5 friends clash face-to-face. One room. One mic. Endless chaotic fun.",
+    images: ["/assets/hero-shot.webp"],
   },
 };
 
