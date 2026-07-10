@@ -1,36 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import CosmicBackground from "./components/CosmicBackground";
 
 export default function Home() {
   const [audioPlaying, setAudioPlaying] = useState(false);
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const aud = new Audio("/assets/BGM.mp3");
     aud.loop = true;
     aud.volume = 0.35;
-    setTimeout(() => {
-      setAudio(aud);
-    }, 0);
+    audioRef.current = aud;
 
     return () => {
       aud.pause();
     };
   }, []);
 
-  useEffect(() => {
-    if (!audio) return;
+  const toggleBGM = () => {
+    if (!audioRef.current) return;
     if (audioPlaying) {
-      audio.play().catch((err) => {
-        console.warn("Audio playback blocked:", err);
-        setAudioPlaying(false);
-      });
+      audioRef.current.pause();
+      setAudioPlaying(false);
     } else {
-      audio.pause();
+      audioRef.current.play()
+        .then(() => {
+          setAudioPlaying(true);
+        })
+        .catch((err) => {
+          console.warn("Audio playback failed:", err);
+        });
     }
-  }, [audioPlaying, audio]);
+  };
   return (
     <div className="relative min-h-screen text-[#eef1ff] overflow-x-hidden font-sans">
       {/* Cosmic background animation */}
@@ -100,7 +102,7 @@ export default function Home() {
             Tech
           </a>
           <button
-            onClick={() => setAudioPlaying(!audioPlaying)}
+            onClick={toggleBGM}
             style={{
               color: "#b9c4ec",
               fontWeight: 500,
