@@ -1,31 +1,27 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import CosmicBackground from "./components/CosmicBackground";
 
 export default function Home() {
-  // Theme settings
-  const [accentCyan, setAccentCyan] = useState("#3dd9ff");
-  const [accentViolet, setAccentViolet] = useState("#9966ff");
-  const [motionEnabled, setMotionEnabled] = useState(true);
-  const [starDensity, setStarDensity] = useState(90);
-  const [showSettings, setShowSettings] = useState(false);
-
-  // Apply CSS vars on change
-  useEffect(() => {
-    const root = document.documentElement.style;
-    root.setProperty("--cyan", accentCyan);
-    root.setProperty("--violet", accentViolet);
-    root.setProperty("--om-play", motionEnabled ? "running" : "paused");
-  }, [accentCyan, accentViolet, motionEnabled]);
-
   return (
     <div className="relative min-h-screen text-[#eef1ff] overflow-x-hidden font-sans">
       {/* Cosmic background animation */}
-      <CosmicBackground starDensity={starDensity} />
+      <CosmicBackground starDensity={90} />
 
       {/* ============ STICKY NAV ============ */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between gap-[18px] py-[14px] px-[clamp(18px,4vw,54px)] backdrop-blur-[10px] bg-[rgba(4,7,26,0.55)] border-b border-[rgba(61,217,255,0.16)]">
+      <nav
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "18px",
+          padding: "14px clamp(18px, 4vw, 54px)",
+          backdropFilter: "blur(10px)",
+          background: "rgba(4, 7, 26, 0.55)",
+          borderBottom: "1px solid rgba(61, 217, 255, 0.16)",
+        }}
+      >
         <a href="#top" className="flex items-center gap-3 text-white no-underline">
           <img
             src="/assets/appicon.png"
@@ -38,35 +34,45 @@ export default function Home() {
           </span>
         </a>
         <div className="flex items-center gap-[clamp(12px,2.2vw,32px)] flex-wrap justify-end">
-          <a href="#battle" className="text-[#b9c4ec] hover:text-[var(--cyan)] font-medium text-[14.5px] transition-colors">
+          <a
+            href="#battle"
+            style={{ color: "#b9c4ec", fontWeight: 500, fontSize: "14.5px" }}
+            className="hover:text-[var(--cyan)] transition-colors"
+          >
             Why local
           </a>
-          <a href="#score" className="text-[#b9c4ec] hover:text-[var(--cyan)] font-medium text-[14.5px] transition-colors">
+          <a
+            href="#score"
+            style={{ color: "#b9c4ec", fontWeight: 500, fontSize: "14.5px" }}
+            className="hover:text-[var(--cyan)] transition-colors"
+          >
             Scoring
           </a>
-          <a href="#how" className="text-[#b9c4ec] hover:text-[var(--cyan)] font-medium text-[14.5px] transition-colors">
+          <a
+            href="#how"
+            style={{ color: "#b9c4ec", fontWeight: 500, fontSize: "14.5px" }}
+            className="hover:text-[var(--cyan)] transition-colors"
+          >
             How it works
           </a>
-          <a href="#songs" className="text-[#b9c4ec] hover:text-[var(--cyan)] font-medium text-[14.5px] transition-colors">
+          <a
+            href="#songs"
+            style={{ color: "#b9c4ec", fontWeight: 500, fontSize: "14.5px" }}
+            className="hover:text-[var(--cyan)] transition-colors"
+          >
             Songs
           </a>
-          <a href="#tech" className="text-[#b9c4ec] hover:text-[var(--cyan)] font-medium text-[14.5px] transition-colors">
+          <a
+            href="#tech"
+            style={{ color: "#b9c4ec", fontWeight: 500, fontSize: "14.5px" }}
+            className="hover:text-[var(--cyan)] transition-colors"
+          >
             Tech
           </a>
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="text-[#b9c4ec] hover:text-[var(--cyan)] font-medium text-[14.5px] flex items-center gap-1.5 transition-colors cursor-pointer"
-            aria-label="Toggle Customizer"
-          >
-            ⚙️ Customize
-          </button>
           <a
             href="/Melodash.zip"
             download
-            className="font-family-poppins font-black text-sm text-[#2f48a5] py-[11px] px-[22px] rounded-[16px] bg-[#d9e2ff] transition-all hover:scale-105 active:scale-95"
-            style={{
-              boxShadow: "0 5px 14px rgba(106,214,235,0.7), inset 0 5px 8px rgba(255,255,255,0.6), inset 5px 0 10px rgba(161,183,255,0.45), inset 0 5px 10px rgba(161,183,255,0.32)",
-            }}
+            className="btn-nav-download"
           >
             Download
           </a>
@@ -97,10 +103,7 @@ export default function Home() {
               <a
                 href="/Melodash.zip"
                 download
-                className="inline-flex items-center gap-3 font-family-poppins font-black text-[17px] tracking-[0.3px] text-[#2f48a5] py-[18px] px-[38px] rounded-[24px] bg-[#d9e2ff] transition-all hover:scale-105 active:scale-95"
-                style={{
-                  boxShadow: "0 6px 18px rgba(106,214,235,0.75), inset 0 7px 10px rgba(255,255,255,0.6), inset 7px 0 14px rgba(161,183,255,0.5), inset 0 7px 14px rgba(161,183,255,0.35)",
-                }}
+                className="btn-hero-download"
               >
                 <svg width="19" height="23" viewBox="0 0 24 24" fill="#2f48a5" aria-hidden="true">
                   <path d="M16.5 1.6c0 1.2-.5 2.4-1.3 3.2-.9.9-2.3 1.6-3.5 1.5-.1-1.2.5-2.4 1.3-3.2.9-.9 2.4-1.6 3.5-1.5zM20.3 17c-.5 1.2-.8 1.7-1.5 2.8-1 1.5-2.3 3.4-4 3.4-1.5 0-1.9-1-3.9-1-2 0-2.5 1-3.9 1-1.7 0-3-1.7-4-3.2-2.7-4-3-8.7-1.3-11.2 1.2-1.8 3-2.8 4.8-2.8 1.8 0 2.9 1 4.4 1 1.4 0 2.3-1 4.4-1 1.6 0 3.2.9 4.4 2.4-3.8 2.1-3.2 7.6.6 8.8z" />
@@ -543,10 +546,7 @@ export default function Home() {
           <a
             href="/Melodash.zip"
             download
-            className="inline-flex items-center gap-3 font-family-poppins font-black text-lg tracking-[0.3px] text-[#2f48a5] py-5 px-11 rounded-[24px] bg-[#d9e2ff] transition-all hover:scale-105 active:scale-95"
-            style={{
-              boxShadow: "0 6px 20px rgba(106,214,235,0.8), inset 0 7px 10px rgba(255,255,255,0.6), inset 7px 0 14px rgba(161,183,255,0.5), inset 0 7px 14px rgba(161,183,255,0.35)",
-            }}
+            className="btn-cta-download"
           >
             <svg width="20" height="24" viewBox="0 0 24 24" fill="#2f48a5" aria-hidden="true">
               <path d="M16.5 1.6c0 1.2-.5 2.4-1.3 3.2-.9.9-2.3 1.6-3.5 1.5-.1-1.2.5-2.4 1.3-3.2.9-.9 2.4-1.6 3.5-1.5zM20.3 17c-.5 1.2-.8 1.7-1.5 2.8-1 1.5-2.3 3.4-4 3.4-1.5 0-1.9-1-3.9-1-2 0-2.5 1-3.9 1-1.7 0-3-1.7-4-3.2-2.7-4-3-8.7-1.3-11.2 1.2-1.8 3-2.8 4.8-2.8 1.8 0 2.9 1 4.4 1 1.4 0 2.3-1 4.4-1 1.6 0 3.2.9 4.4 2.4-3.8 2.1-3.2 7.6.6 8.8z" />
@@ -583,93 +583,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* ============ SETTINGS CUSTOMIZER DRAWER ============ */}
-      {showSettings && (
-        <div className="fixed bottom-6 right-6 z-[100] w-[320px] p-5 rounded-[22px] border-[1.5px] border-[rgba(61,217,255,0.4)] bg-[rgba(4,7,26,0.92)] backdrop-blur-[15px] shadow-[0_10px_30px_rgba(0,0,0,0.8)] animate-[floatY_8s_ease-in-out_infinite]">
-          <div className="flex items-center justify-between mb-4 border-b border-[rgba(255,255,255,0.1)] pb-2.5">
-            <h3 className="font-family-orbitron font-bold text-[#f2f7ff] text-[15px] tracking-[1px] m-0">
-              Cosmic Customizer
-            </h3>
-            <button
-              onClick={() => setShowSettings(false)}
-              className="text-[#8b97c4] hover:text-white text-[13px] cursor-pointer"
-            >
-              ✕ Close
-            </button>
-          </div>
-
-          {/* Accent Cyan Swatches */}
-          <div className="mb-4">
-            <label className="block text-xs font-family-orbitron font-bold text-[#8b97c4] tracking-[1px] uppercase mb-2">
-              Primary Accent (Cyan)
-            </label>
-            <div className="flex gap-2">
-              {["#3dd9ff", "#66ccff", "#38f0c0", "#5b8cff"].map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setAccentCyan(c)}
-                  className={`w-6 h-6 rounded-full cursor-pointer transition-transform ${accentCyan === c ? 'scale-125 border-2 border-white' : 'hover:scale-110'}`}
-                  style={{ backgroundColor: c }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Accent Violet Swatches */}
-          <div className="mb-4">
-            <label className="block text-xs font-family-orbitron font-bold text-[#8b97c4] tracking-[1px] uppercase mb-2">
-              Secondary Accent (Violet)
-            </label>
-            <div className="flex gap-2">
-              {["#9966ff", "#c661ff", "#7c4dff", "#ff4d9d"].map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setAccentViolet(c)}
-                  className={`w-6 h-6 rounded-full cursor-pointer transition-transform ${accentViolet === c ? 'scale-125 border-2 border-white' : 'hover:scale-110'}`}
-                  style={{ backgroundColor: c }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Motion Toggle */}
-          <div className="flex items-center justify-between mb-4">
-            <label className="text-xs font-family-orbitron font-bold text-[#8b97c4] tracking-[1px] uppercase">
-              Ornaments Motion
-            </label>
-            <button
-              onClick={() => setMotionEnabled(!motionEnabled)}
-              className={`px-3 py-1.5 rounded-[12px] font-family-orbitron font-bold text-[11px] uppercase cursor-pointer transition-colors ${
-                motionEnabled ? "bg-[#d9e2ff] text-[#2f48a5]" : "bg-[rgba(255,255,255,0.08)] text-[#8b97c4]"
-              }`}
-            >
-              {motionEnabled ? "Running" : "Paused"}
-            </button>
-          </div>
-
-          {/* Star Density Slider */}
-          <div>
-            <div className="flex justify-between items-center mb-1">
-              <label className="text-xs font-family-orbitron font-bold text-[#8b97c4] tracking-[1px] uppercase">
-                Star Density
-              </label>
-              <span className="text-[11px] font-family-orbitron font-bold text-[#f2f7ff]">
-                {starDensity}
-              </span>
-            </div>
-            <input
-              type="range"
-              min="20"
-              max="180"
-              step="5"
-              value={starDensity}
-              onChange={(e) => setStarDensity(parseInt(e.target.value))}
-              className="w-full h-1 bg-[rgba(255,255,255,0.1)] rounded-lg appearance-none cursor-pointer accent-[var(--cyan)]"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -76,13 +76,13 @@ body {
   overflow-x: hidden;
 }
 
-a {
+a:not([class]) {
   color: var(--cyan);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-a:hover {
+a:not([class]):hover {
   color: var(--violet);
 }
 
@@ -195,3 +195,68 @@ a:hover {
     box-shadow: 0 0 46px rgba(153, 102, 255, .4), inset 0 0 24px rgba(153, 102, 255, .08);
   }
 }
+
+/* Custom premium buttons */
+.btn-nav-download {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  color: #2f48a5 !important;
+  padding: 11px 22px;
+  border-radius: 16px;
+  background: #d9e2ff;
+  box-shadow: 0 5px 14px rgba(106,214,235,.7), inset 0 5px 8px rgba(255,255,255,.6), inset 5px 0 10px rgba(161,183,255,.45), inset 0 5px 10px rgba(161,183,255,.32);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+  display: inline-block;
+  text-decoration: none;
+}
+.btn-nav-download:hover {
+  transform: scale(1.06);
+  color: #2f48a5 !important;
+  box-shadow: 0 9px 22px rgba(106,214,235,1), inset 0 5px 8px rgba(255,255,255,.7), inset 5px 0 10px rgba(161,183,255,.6), inset 0 5px 10px rgba(161,183,255,.4);
+}
+
+.btn-hero-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 17px;
+  letter-spacing: .3px;
+  color: #2f48a5 !important;
+  padding: 18px 38px;
+  border-radius: 24px;
+  background: #d9e2ff;
+  box-shadow: 0 6px 18px rgba(106,214,235,.75), inset 0 7px 10px rgba(255,255,255,.6), inset 7px 0 14px rgba(161,183,255,.5), inset 0 7px 14px rgba(161,183,255,.35);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+  text-decoration: none;
+}
+.btn-hero-download:hover {
+  transform: scale(1.06);
+  color: #2f48a5 !important;
+  box-shadow: 0 11px 30px rgba(106,214,235,1), inset 0 7px 10px rgba(255,255,255,.7), inset 7px 0 14px rgba(161,183,255,.6), inset 0 7px 14px rgba(161,183,255,.4);
+}
+
+.btn-cta-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: .3px;
+  color: #2f48a5 !important;
+  padding: 20px 44px;
+  border-radius: 24px;
+  background: #d9e2ff;
+  box-shadow: 0 6px 20px rgba(106,214,235,.8), inset 0 7px 10px rgba(255,255,255,.6), inset 7px 0 14px rgba(161,183,255,.5), inset 0 7px 14px rgba(161,183,255,.35);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+  text-decoration: none;
+}
+.btn-cta-download:hover {
+  transform: scale(1.06);
+  color: #2f48a5 !important;
+  box-shadow: 0 12px 34px rgba(106,214,235,1), inset 0 7px 10px rgba(255,255,255,.7), inset 7px 0 14px rgba(161,183,255,.6), inset 0 7px 14px rgba(161,183,255,.4);
+}
+
