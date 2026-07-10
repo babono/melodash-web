@@ -61,9 +61,8 @@ export default function Home() {
             ⚙️ Customize
           </button>
           <a
-            href="https://melodash.app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/Melodash.zip"
+            download
             className="font-family-poppins font-black text-sm text-[#2f48a5] py-[11px] px-[22px] rounded-[16px] bg-[#d9e2ff] transition-all hover:scale-105 active:scale-95"
             style={{
               boxShadow: "0 5px 14px rgba(106,214,235,0.7), inset 0 5px 8px rgba(255,255,255,0.6), inset 5px 0 10px rgba(161,183,255,0.45), inset 0 5px 10px rgba(161,183,255,0.32)",
@@ -96,9 +95,8 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-[18px] items-center">
               <a
-                href="https://melodash.app"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/Melodash.zip"
+                download
                 className="inline-flex items-center gap-3 font-family-poppins font-black text-[17px] tracking-[0.3px] text-[#2f48a5] py-[18px] px-[38px] rounded-[24px] bg-[#d9e2ff] transition-all hover:scale-105 active:scale-95"
                 style={{
                   boxShadow: "0 6px 18px rgba(106,214,235,0.75), inset 0 7px 10px rgba(255,255,255,0.6), inset 7px 0 14px rgba(161,183,255,0.5), inset 0 7px 14px rgba(161,183,255,0.35)",
@@ -543,9 +541,8 @@ export default function Home() {
             Grab the mic, gather your people, and find out who really puts on the best show.
           </p>
           <a
-            href="https://melodash.app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/Melodash.zip"
+            download
             className="inline-flex items-center gap-3 font-family-poppins font-black text-lg tracking-[0.3px] text-[#2f48a5] py-5 px-11 rounded-[24px] bg-[#d9e2ff] transition-all hover:scale-105 active:scale-95"
             style={{
               boxShadow: "0 6px 20px rgba(106,214,235,0.8), inset 0 7px 10px rgba(255,255,255,0.6), inset 7px 0 14px rgba(161,183,255,0.5), inset 0 7px 14px rgba(161,183,255,0.35)",
