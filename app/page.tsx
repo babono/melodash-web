@@ -3,8 +3,81 @@
 import { useState, useEffect, useRef } from "react";
 import CosmicBackground from "./components/CosmicBackground";
 
+const videos = [
+  {
+    id: 0,
+    src: "/videos/video1.mp4",
+    title: "Pitch Tracking & Scoring 🎯",
+    description: "Hit the notes and hold them. Live pitch scoring against the backing track.",
+    likes: 120,
+    comments: 3,
+    shares: 18,
+    performer: "@LumbazzZ_Team",
+    song: "Frank Sinatra - My Way"
+  },
+  {
+    id: 1,
+    src: "/videos/video2.mp4",
+    title: "Nailed the Rap! 🎤",
+    description: "Speech articulation checking. Clear pronunciation of the lyrics scored.",
+    likes: 345,
+    comments: 3,
+    shares: 55,
+    performer: "@SingingStar",
+    song: "Daniel Caesar - Get You"
+  },
+  {
+    id: 2,
+    src: "/videos/video3.mp4",
+    title: "Leaderboard Climax! 🏆",
+    description: "Climbing the live leaderboard in real-time performance.",
+    likes: 98,
+    comments: 3,
+    shares: 7,
+    performer: "@KaraokeKing",
+    song: "BGM Vibe"
+  },
+  {
+    id: 3,
+    src: "/videos/video4.mp4",
+    title: "Expression Scoring 😜",
+    description: "Live camera emotion tracking. Match your expressions to win!",
+    likes: 412,
+    comments: 3,
+    shares: 99,
+    performer: "@ActorPro",
+    song: "Pop Anthem"
+  },
+  {
+    id: 4,
+    src: "/videos/video5.mp4",
+    title: "Apple Music Catalog Search 🎵",
+    description: "Seamless search from millions of songs in Apple Music.",
+    likes: 220,
+    comments: 3,
+    shares: 31,
+    performer: "@TeamLumbazzZ",
+    song: "Search Engine"
+  },
+  {
+    id: 5,
+    src: "/videos/video6.mp4",
+    title: "Local Multiplayer Lobby 🔊",
+    description: "Lobby screens, settings, and player list setup for round play.",
+    likes: 85,
+    comments: 3,
+    shares: 4,
+    performer: "@DevTeam",
+    song: "Melodash Lobby"
+  }
+];
+
 export default function Home() {
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const [bgmWasPlaying, setBgmWasPlaying] = useState(false);
+  const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null);
+  const [likedVideos, setLikedVideos] = useState<Record<number, boolean>>({});
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -33,6 +106,84 @@ export default function Home() {
         });
     }
   };
+
+  const openVideoModal = (index: number) => {
+    setActiveVideoIndex(index);
+    if (audioPlaying) {
+      audioRef.current?.pause();
+      setBgmWasPlaying(true);
+      setAudioPlaying(false);
+    }
+  };
+
+  const closeVideoModal = () => {
+    setActiveVideoIndex(null);
+    if (bgmWasPlaying) {
+      audioRef.current?.play().then(() => {
+        setAudioPlaying(true);
+      }).catch((err) => {
+        console.warn("Resuming BGM failed:", err);
+      });
+      setBgmWasPlaying(false);
+    }
+  };
+
+  const prevVideo = () => {
+    if (activeVideoIndex === null) return;
+    const nextIdx = (activeVideoIndex - 1 + videos.length) % videos.length;
+    setActiveVideoIndex(nextIdx);
+  };
+
+  const nextVideo = () => {
+    if (activeVideoIndex === null) return;
+    const nextIdx = (activeVideoIndex + 1) % videos.length;
+    setActiveVideoIndex(nextIdx);
+  };
+
+  const toggleLike = () => {
+    if (activeVideoIndex === null) return;
+    setLikedVideos(prev => ({
+      ...prev,
+      [activeVideoIndex]: !prev[activeVideoIndex]
+    }));
+  };
+
+  const getVideoComments = (index: number) => {
+    const commentsData = [
+      [
+        { user: "@FrankFan_99", text: "Frank would be proud of this pitch score! 🔥" },
+        { user: "@cosmic_girl", text: "the background stars breathing makes it look so futuristic" },
+        { user: "@karaoke_junky", text: "Cannot wait to try this on my Mac!" }
+      ],
+      [
+        { user: "@rap_god", text: "enunciation check is actually a game-changer" },
+        { user: "@dan_caesar_love", text: "this Daniel Caesar song is so smooth to sing" },
+        { user: "@mumble_rapper", text: "mumble rappers beware indeed 😂" }
+      ],
+      [
+        { user: "@leaderboard_pro", text: "the live board scrolling got me sweating" },
+        { user: "@champ_01", text: "local lobby multiplayer is exactly what my party needs" },
+        { user: "@mac_gamer", text: "looks super easy to pass the mic" }
+      ],
+      [
+        { user: "@expressionist", text: "Core ML facial landmarks tracking works so well!" },
+        { user: "@funny_face", text: "i'm gonna pull the funniest face to steal the crown 😜" },
+        { user: "@vision_ai", text: "built-in Apple Vision framework integration is nice" }
+      ],
+      [
+        { user: "@music_kit_user", text: "Apple Music library is huge! Glad they used it" },
+        { user: "@licensed_songs", text: "no more generic MIDI backing tracks, finally!" },
+        { user: "@ui_enthusiast", text: "love the native search flow" }
+      ],
+      [
+        { user: "@lobby_host", text: "looks super clean to setup, no account swops" },
+        { user: "@developer_cadet", text: "LumbazzZ team cooked with this project" },
+        { user: "@windows_please", text: "plss make a Windows version, need this so much 😭" }
+      ]
+    ];
+    return commentsData[index] || [];
+  };
+
   return (
     <div className="relative min-h-screen text-[#eef1ff] overflow-x-hidden font-sans">
       {/* Cosmic background animation */}
@@ -445,16 +596,47 @@ export default function Home() {
             See it in action
           </h2>
         </div>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
-          <div className="rounded-[22px] overflow-hidden border-[1.5px] border-[rgba(61,217,255,0.45)] aspect-[4/3] bg-[#04071a]" style={{ boxShadow: "0 0 26px rgba(61,217,255,0.2)" }}>
-            <img src="/assets/shot-1.jpg" alt="Gameplay screen" className="w-full h-full object-cover" />
-          </div>
-          <div className="rounded-[22px] overflow-hidden border-[1.5px] border-[rgba(255,77,157,0.45)] aspect-[4/3] bg-[#04071a]" style={{ boxShadow: "0 0 26px rgba(255,77,157,0.2)" }}>
-            <img src="/assets/shot-2.jpg" alt="Leaderboard screen" className="w-full h-full object-cover" />
-          </div>
-          <div className="rounded-[22px] overflow-hidden border-[1.5px] border-[rgba(153,102,255,0.45)] aspect-[4/3] bg-[#04071a]" style={{ boxShadow: "0 0 26px rgba(153,102,255,0.2)" }}>
-            <img src="/assets/shot-3.png" alt="Scoring screen" className="w-full h-full object-cover" />
-          </div>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] md:grid-cols-3 gap-5">
+          {videos.map((v, index) => (
+            <div
+              key={v.id}
+              onClick={() => openVideoModal(index)}
+              className="relative rounded-[22px] overflow-hidden border-[1.5px] border-[rgba(61,217,255,0.45)] bg-[#04071a] cursor-pointer group aspect-[9/16] shadow-[0_0_26px_rgba(61,217,255,0.2)]"
+              onMouseEnter={(e) => {
+                const videoEl = e.currentTarget.querySelector("video");
+                if (videoEl) videoEl.play().catch(() => {});
+              }}
+              onMouseLeave={(e) => {
+                const videoEl = e.currentTarget.querySelector("video");
+                if (videoEl) {
+                  videoEl.pause();
+                  videoEl.currentTime = 0;
+                }
+              }}
+            >
+              <video
+                src={v.src}
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-5">
+                <div className="flex items-center gap-1.5 text-[var(--cyan)] font-family-orbitron font-bold text-xs mb-1">
+                  <span>▶</span> See in Action
+                </div>
+                <h3 className="font-family-orbitron font-bold text-[17px] m-0 text-white truncate">
+                  {v.title}
+                </h3>
+                <p className="text-xs text-[#b9c4ec] m-0 mt-1.5 line-clamp-2 leading-relaxed">
+                  {v.description}
+                </p>
+              </div>
+              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity">
+                🔊
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -646,6 +828,153 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* ============ TIKTOK MODAL OVERLAY ============ */}
+      {activeVideoIndex !== null && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 md:p-6">
+          {/* Backdrop click close */}
+          <div className="absolute inset-0 cursor-default" onClick={closeVideoModal} />
+
+          {/* Close button */}
+          <button
+            onClick={closeVideoModal}
+            className="absolute top-4 right-4 z-50 text-[#b9c4ec] hover:text-white text-3xl font-bold cursor-pointer w-10 h-10 flex items-center justify-center bg-black/50 rounded-full border-none"
+            aria-label="Close modal"
+          >
+            ✕
+          </button>
+
+          {/* Main Modal Card */}
+          <div
+            className="relative z-10 w-full max-w-[900px] h-[85vh] bg-[#080c26] rounded-[28px] border border-[rgba(61,217,255,0.3)] overflow-hidden flex flex-col md:flex-row shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Left Column: Video Player */}
+            <div className="relative flex-1 bg-black flex items-center justify-center h-[55%] md:h-full">
+              <video
+                src={videos[activeVideoIndex].src}
+                autoPlay
+                loop
+                controls
+                playsInline
+                className="w-full h-full object-contain max-h-[80vh]"
+              />
+
+              {/* Prev Button */}
+              <button
+                onClick={prevVideo}
+                className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl cursor-pointer transition-colors border-none"
+                aria-label="Previous video"
+              >
+                ‹
+              </button>
+
+              {/* Next Button */}
+              <button
+                onClick={nextVideo}
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl cursor-pointer transition-colors border-none"
+                aria-label="Next video"
+              >
+                ›
+              </button>
+            </div>
+
+            {/* Right Column: Sidebar (Details and Comments) */}
+            <div className="w-full md:w-[360px] h-[45%] md:h-full bg-[#0a0e2a] border-t md:border-t-0 md:border-l border-[rgba(255,255,255,0.08)] flex flex-col justify-between overflow-hidden">
+              {/* Top area */}
+              <div className="p-5 overflow-y-auto flex-1 custom-scrollbar">
+                {/* Profile row */}
+                <div className="flex items-center gap-3 mb-4">
+                  <img src="/assets/appicon.png" alt="Melodash" className="w-10 h-10 rounded-[10px]" />
+                  <div>
+                    <div className="font-family-orbitron font-bold text-white text-sm">
+                      {videos[activeVideoIndex].performer}
+                    </div>
+                    <div className="text-xs text-[#6f7cae]">Melodash Official</div>
+                  </div>
+                  <button className="ml-auto bg-[var(--cyan)] text-[#04071a] font-family-orbitron font-bold text-xs py-1 px-3.5 rounded-full hover:scale-105 active:scale-95 transition-transform border-none cursor-pointer">
+                    Follow
+                  </button>
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-[#b0bbe4] m-0 mb-3 leading-relaxed">
+                  {videos[activeVideoIndex].description}
+                </p>
+
+                {/* Song tag */}
+                <div className="flex items-center gap-2 text-[var(--cyan)] font-family-orbitron font-bold text-xs mb-5">
+                  <span>🎵</span>
+                  <span className="truncate">{videos[activeVideoIndex].song}</span>
+                </div>
+
+                {/* Action metrics row */}
+                <div className="flex items-center gap-6 mb-6 border-y border-[rgba(255,255,255,0.08)] py-3">
+                  <button
+                    onClick={toggleLike}
+                    className="flex items-center gap-2 cursor-pointer text-sm bg-none border-none text-[#eef1ff]"
+                  >
+                    <span className="text-lg transition-transform active:scale-150">
+                      {likedVideos[activeVideoIndex] ? "❤️" : "🤍"}
+                    </span>
+                    <span className="text-[#b9c4ec] font-semibold">
+                      {videos[activeVideoIndex].likes + (likedVideos[activeVideoIndex] ? 1 : 0)}
+                    </span>
+                  </button>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-lg">💬</span>
+                    <span className="text-[#b9c4ec] font-semibold">
+                      {videos[activeVideoIndex].comments}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-lg">🔗</span>
+                    <span className="text-[#b9c4ec] font-semibold">
+                      {videos[activeVideoIndex].shares}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Comments Header */}
+                <div className="text-xs font-family-orbitron font-bold text-[#6f7cae] tracking-[1px] mb-3 uppercase">
+                  Comments ({videos[activeVideoIndex].comments})
+                </div>
+
+                {/* Comments List */}
+                <div className="space-y-3.5">
+                  {getVideoComments(activeVideoIndex).map((c, idx) => (
+                    <div key={idx} className="flex gap-2.5 items-start text-xs text-left">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[var(--cyan)] to-[var(--violet)] flex items-center justify-center font-bold text-[9px] text-[#04071a] flex-none">
+                        {c.user[1].toUpperCase()}
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold text-white mb-0.5">{c.user}</div>
+                        <div className="text-[#b0bbe4] leading-normal">{c.text}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Input Area */}
+              <div className="p-4 bg-[#080b22] border-t border-[rgba(255,255,255,0.08)] flex gap-2 items-center">
+                <input
+                  type="text"
+                  placeholder="Add comment..."
+                  disabled
+                  className="flex-1 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.1)] rounded-full py-2 px-4 text-xs text-[#eef1ff] focus:outline-none placeholder-[#6f7cae]"
+                />
+                <button
+                  disabled
+                  className="bg-[rgba(255,255,255,0.08)] text-[#6f7cae] font-family-orbitron font-bold text-xs py-2 px-4 rounded-full border-none"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
