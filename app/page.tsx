@@ -75,6 +75,7 @@ const videos = [
 export default function Home() {
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [bgmWasPlaying, setBgmWasPlaying] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null);
   const [likedVideos, setLikedVideos] = useState<Record<number, boolean>>({});
 
@@ -216,7 +217,7 @@ export default function Home() {
             MELODASH
           </span>
         </a>
-        <div className="flex items-center gap-[clamp(12px,2.2vw,32px)] flex-wrap justify-end">
+        <div className="hidden md:flex items-center gap-[clamp(12px,2.2vw,32px)] justify-end">
           <a
             href="#battle"
             style={{ color: "#b9c4ec", fontWeight: 500, fontSize: "14.5px" }}
@@ -291,6 +292,19 @@ export default function Home() {
             Download
           </a>
         </div>
+
+        {/* Hamburger Menu Button for Mobile */}
+        <button
+          onClick={() => setMenuOpen(true)}
+          className="flex md:hidden items-center justify-center p-2 text-[#b9c4ec] hover:text-white bg-none border-none cursor-pointer"
+          aria-label="Open Menu"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
       </nav>
 
       {/* ============ HERO HEADER ============ */}
@@ -973,6 +987,97 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {/* ============ MOBILE FULLSCREEN MENU OVERLAY ============ */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-[150] bg-[#04071a]/95 backdrop-blur-2xl flex flex-col items-center justify-center gap-8 p-6">
+          {/* Close button */}
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="absolute top-5 right-[clamp(18px,4vw,54px)] text-[#b9c4ec] hover:text-white text-3xl font-bold cursor-pointer border-none bg-none"
+            aria-label="Close Menu"
+          >
+            ✕
+          </button>
+
+          <a
+            href="#battle"
+            onClick={() => setMenuOpen(false)}
+            className="font-family-orbitron font-black text-2xl tracking-[2px] text-[#cfe8ff] hover:text-[var(--cyan)] transition-colors no-underline"
+          >
+            Why local
+          </a>
+          <a
+            href="#score"
+            onClick={() => setMenuOpen(false)}
+            className="font-family-orbitron font-black text-2xl tracking-[2px] text-[#cfe8ff] hover:text-[var(--cyan)] transition-colors no-underline"
+          >
+            Scoring
+          </a>
+          <a
+            href="#how"
+            onClick={() => setMenuOpen(false)}
+            className="font-family-orbitron font-black text-2xl tracking-[2px] text-[#cfe8ff] hover:text-[var(--cyan)] transition-colors no-underline"
+          >
+            How it works
+          </a>
+          <a
+            href="#songs"
+            onClick={() => setMenuOpen(false)}
+            className="font-family-orbitron font-black text-2xl tracking-[2px] text-[#cfe8ff] hover:text-[var(--cyan)] transition-colors no-underline"
+          >
+            Songs
+          </a>
+          <a
+            href="#tech"
+            onClick={() => setMenuOpen(false)}
+            className="font-family-orbitron font-black text-2xl tracking-[2px] text-[#cfe8ff] hover:text-[var(--cyan)] transition-colors no-underline"
+          >
+            Tech
+          </a>
+
+          {/* Mobile BGM Toggle */}
+          <button
+            onClick={toggleBGM}
+            style={{
+              color: "#b9c4ec",
+              fontWeight: 700,
+              fontSize: "18px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+            className="font-family-orbitron hover:text-[var(--cyan)] transition-colors"
+          >
+            {audioPlaying ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
+                <line x1="22" y1="9" x2="16" y2="15" />
+                <line x1="16" y1="9" x2="22" y2="15" />
+              </svg>
+            )}
+            <span>BGM</span>
+          </button>
+
+          {/* Mobile Download button */}
+          <a
+            href="/Melodash.zip"
+            download
+            onClick={() => setMenuOpen(false)}
+            className="btn-nav-download text-lg px-8 py-3"
+          >
+            Download
+          </a>
         </div>
       )}
     </div>
