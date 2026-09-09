@@ -285,7 +285,7 @@ export default function Home() {
             <span>BGM</span>
           </button>
           <a
-            href="/Melodash.zip"
+            href="/releases/Melodash-1.0.dmg"
             download
             className="btn-nav-download"
           >
@@ -329,7 +329,7 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-[18px] items-center">
               <a
-                href="/Melodash.zip"
+                href="/releases/Melodash-1.0.dmg"
                 download
                 className="btn-hero-download"
               >
@@ -339,7 +339,7 @@ export default function Home() {
                 Download for Mac
               </a>
               <div className="text-[13px] text-[#8b97c4] leading-[1.5]">
-                Free · macOS<br />Sign in with Apple
+                Free · macOS 15 or later<br />Universal (Apple silicon &amp; Intel)
               </div>
             </div>
           </div>
@@ -803,7 +803,7 @@ export default function Home() {
             Grab the mic, gather your people, and find out who really puts on the best show.
           </p>
           <a
-            href="/Melodash.zip"
+            href="/releases/Melodash-1.0.dmg"
             download
             className="btn-cta-download"
           >
@@ -813,7 +813,13 @@ export default function Home() {
             Download for Mac
           </a>
           <div className="mt-4 text-[13px] text-[#8b97c4]">
-            Free · macOS · Sign in with Apple
+            Free · macOS 15 or later · Universal (Apple silicon &amp; Intel)
+          </div>
+          {/* Builds before 1.0 shipped without an updater, so they cannot pull
+              this release themselves — those users have to come back once. */}
+          <div className="mt-2 text-[12px] text-[#6f7bab]">
+            Already have Melodash from an earlier download? Grab this version once —
+            it updates itself from here on.
           </div>
         </div>
       </section>
@@ -827,8 +833,12 @@ export default function Home() {
               <div className="font-family-orbitron font-black tracking-[1px] text-[17px]">
                 MELODASH
               </div>
-              <div className="text-xs text-[#6f7cae]">
-                Where singing meets arcade battle · melodash.app
+              <div className="text-xs text-[#6f7cae] flex flex-wrap gap-x-2.5 gap-y-1 items-center mt-1">
+                <span>Where singing meets arcade battle</span>
+                <span className="hidden sm:inline text-white/10">|</span>
+                <a href="/privacy" className="hover:text-[var(--cyan)] transition-colors no-underline">Privacy Policy</a>
+                <span className="text-white/10">|</span>
+                <a href="/support" className="hover:text-[var(--cyan)] transition-colors no-underline">Support</a>
               </div>
             </div>
           </div>
@@ -1071,7 +1081,7 @@ export default function Home() {
 
           {/* Mobile Download button */}
           <a
-            href="/Melodash.zip"
+            href="/releases/Melodash-1.0.dmg"
             download
             onClick={() => setMenuOpen(false)}
             className="btn-nav-download text-lg px-8 py-3"
