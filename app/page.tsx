@@ -839,6 +839,8 @@ export default function Home() {
                 <a href="/privacy" className="hover:text-[var(--cyan)] transition-colors no-underline">Privacy Policy</a>
                 <span className="text-white/10">|</span>
                 <a href="/support" className="hover:text-[var(--cyan)] transition-colors no-underline">Support</a>
+                <span className="text-white/10">|</span>
+                <a href="/releases" className="hover:text-[var(--cyan)] transition-colors no-underline">Releases</a>
               </div>
             </div>
           </div>
