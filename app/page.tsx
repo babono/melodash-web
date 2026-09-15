@@ -3,6 +3,46 @@
 import { useState, useEffect, useRef } from "react";
 import CosmicBackground from "./components/CosmicBackground";
 
+// Genre chips for the scrolling marquee in the Songs section.
+//
+// Rendered MARQUEE_COPIES times back to back; the animation translates by
+// exactly half the track, so the reset lands on an identical frame. Two things
+// have to hold for that to look seamless, and both were previously broken:
+//
+//   1. Every copy must be the same width INCLUDING its trailing gap, so the
+//      translate distance is a whole number of copies. The old markup put the
+//      gap between copies on one of them (ml-4), which left the -50% translate
+//      8px short and snapped once per cycle.
+//   2. Half the track must be at least as wide as the viewport, or the far edge
+//      runs out of chips and shows a gap before the reset — the bug this
+//      replaced. One run of these seven chips measures ~1240px, so half of six
+//      runs is ~3700px: wider than any realistic browser window. Two runs left
+//      only ~1240px of cover and fell short on anything above a laptop.
+const SONG_TAGS = [
+  { label: "🎧 Pop Anthems", tone: "cyan" },
+  { label: "💿 90s Throwbacks", tone: "pink" },
+  { label: "✨ K-Pop", tone: "violet" },
+  { label: "🔥 Hip-Hop", tone: "orange" },
+  { label: "🎸 Power Ballads", tone: "cyan" },
+  { label: "💃 Dance Floor", tone: "pink" },
+  { label: "🎵 Indie", tone: "violet" },
+] as const;
+
+const TAG_TONES = {
+  cyan: "border-[rgba(61,217,255,0.5)] bg-[rgba(61,217,255,0.08)] text-[#cfe8ff]",
+  pink: "border-[rgba(255,77,157,0.5)] bg-[rgba(255,77,157,0.08)] text-[#ffd0e6]",
+  violet: "border-[rgba(153,102,255,0.5)] bg-[rgba(153,102,255,0.1)] text-[#ddd0ff]",
+  orange: "border-[rgba(245,117,31,0.55)] bg-[rgba(245,117,31,0.1)] text-[#ffdcc4]",
+} as const;
+
+const MARQUEE_COPIES = 6;
+
+// Scroll speed is distance/time, and the distance is half the track — which
+// grows with MARQUEE_COPIES. Deriving the duration from the copy count keeps
+// the chips moving at a constant ~41px/s whatever that count is; a fixed
+// duration would silently speed the marquee up every time a copy was added.
+const MARQUEE_DURATION_S = MARQUEE_COPIES * 15;
+
 const videos = [
   {
     id: 0,
@@ -550,53 +590,35 @@ export default function Home() {
             Pop anthems, throwback classics, K-pop, hip-hop, power ballads — from crowd-pleasers to deep cuts that separate the real fans.
           </p>
         </div>
-        <div className="flex w-max animate-[marquee_30s_linear_infinite]" style={{ animationPlayState: "var(--om-play, running)" }}>
-          <div className="flex gap-4">
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(61,217,255,0.5)] bg-[rgba(61,217,255,0.08)] text-[#cfe8ff] whitespace-nowrap">
-              🎧 Pop Anthems
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(255,77,157,0.5)] bg-[rgba(255,77,157,0.08)] text-[#ffd0e6] whitespace-nowrap">
-              💿 90s Throwbacks
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(153,102,255,0.5)] bg-[rgba(153,102,255,0.1)] text-[#ddd0ff] whitespace-nowrap">
-              ✨ K-Pop
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(245,117,31,0.55)] bg-[rgba(245,117,31,0.1)] text-[#ffdcc4] whitespace-nowrap">
-              🔥 Hip-Hop
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(61,217,255,0.5)] bg-[rgba(61,217,255,0.08)] text-[#cfe8ff] whitespace-nowrap">
-              🎸 Power Ballads
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(255,77,157,0.5)] bg-[rgba(255,77,157,0.08)] text-[#ffd0e6] whitespace-nowrap">
-              💃 Dance Floor
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(153,102,255,0.5)] bg-[rgba(153,102,255,0.1)] text-[#ddd0ff] whitespace-nowrap">
-              🎵 Indie
-            </span>
-          </div>
-          <div className="flex gap-4 ml-4" aria-hidden="true">
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(61,217,255,0.5)] bg-[rgba(61,217,255,0.08)] text-[#cfe8ff] whitespace-nowrap">
-              🎧 Pop Anthems
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(255,77,157,0.5)] bg-[rgba(255,77,157,0.08)] text-[#ffd0e6] whitespace-nowrap">
-              💿 90s Throwbacks
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(153,102,255,0.5)] bg-[rgba(153,102,255,0.1)] text-[#ddd0ff] whitespace-nowrap">
-              ✨ K-Pop
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(245,117,31,0.55)] bg-[rgba(245,117,31,0.1)] text-[#ffdcc4] whitespace-nowrap">
-              🔥 Hip-Hop
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(61,217,255,0.5)] bg-[rgba(61,217,255,0.08)] text-[#cfe8ff] whitespace-nowrap">
-              🎸 Power Ballads
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(255,77,157,0.5)] bg-[rgba(255,77,157,0.08)] text-[#ffd0e6] whitespace-nowrap">
-              💃 Dance Floor
-            </span>
-            <span className="font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border border-[rgba(153,102,255,0.5)] bg-[rgba(153,102,255,0.1)] text-[#ddd0ff] whitespace-nowrap">
-              🎵 Indie
-            </span>
-          </div>
+        {/* The track holds MARQUEE_COPIES identical runs; the keyframes shift
+            it by exactly half, so the loop point is visually identical. Each
+            run carries its own trailing gap (pr-4) so a "copy" is a whole
+            unit — without that the translate lands mid-gap and snaps. */}
+        <div
+          className="flex w-max"
+          style={{
+            animation: `marquee ${MARQUEE_DURATION_S}s linear infinite`,
+            animationPlayState: "var(--om-play, running)",
+          }}
+        >
+          {Array.from({ length: MARQUEE_COPIES }, (_, copy) => (
+            <div
+              key={copy}
+              className="flex gap-4 pr-4"
+              // Only the first run is real content; the rest are visual filler
+              // and would otherwise be read out repeatedly.
+              aria-hidden={copy > 0 ? true : undefined}
+            >
+              {SONG_TAGS.map((tag) => (
+                <span
+                  key={tag.label}
+                  className={`font-family-orbitron font-bold text-sm tracking-[0.5px] py-3 px-6 rounded-full border whitespace-nowrap ${TAG_TONES[tag.tone]}`}
+                >
+                  {tag.label}
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 

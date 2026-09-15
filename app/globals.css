@@ -178,6 +178,11 @@ a:not([class]):hover {
   }
 }
 
+/* Scrolling genre chips in the Songs section.
+   -50% is only seamless because the track is built from an EVEN number of
+   equal-width copies (MARQUEE_COPIES in page.tsx), each carrying its own
+   trailing gap. Change the copy count to an odd number, or move the gap
+   between copies instead of inside them, and the loop will snap. */
 @keyframes marquee {
   from {
     transform: translateX(0);
